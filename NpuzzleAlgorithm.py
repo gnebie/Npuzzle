@@ -1,7 +1,7 @@
 import NpuzzleControle
 import NpuzzleHeuristique
 import NpuzzleInfosAlgorithm
-
+import NpuzzleAstar
 
 def copydbllist(lst):
 	newlst = []
@@ -20,7 +20,9 @@ class NpuzzleAlgorithm:
 		# print(self.He.check_walls(self.Tab.list_2))
 		# print(self.He.check_walls(self.Tab.list_2))
 		# print(self.He.check_walls(self.Tab.list_2))
-		self.baby_ago()
+		# self.baby_ago()
+		algo = NpuzzleAstar.NpuzzleAstar(self.Tab)
+		algo.Astar(self.Tab.list_2, self.Tab.listsort)
 
 
 	def printtab(self, tab):
