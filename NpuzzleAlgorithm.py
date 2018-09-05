@@ -22,8 +22,16 @@ class NpuzzleAlgorithm:
 		# print(self.He.check_walls(self.Tab.list_2))
 		# self.baby_ago()
 		algo = NpuzzleAstar.NpuzzleAstar(self.Tab)
-		algo.Astar(self.Tab.list_2, self.Tab.listsort)
-
+		result = algo.Astar(self.Tab.list_2, self.Tab.listsort)
+		for i in result:
+			for y in i[0]:
+				print(y)
+			print('\n')
+		# print('result[0]', result[0], '\n')
+		# print('result[1]', result[1], '\n')
+		# print('result[2]', result[2], '\n')
+		# print('result[3]', result[3], '\n')
+		# print('result[4]', result[4], '\n')
 
 	def printtab(self, tab):
 		print("print tab : ")

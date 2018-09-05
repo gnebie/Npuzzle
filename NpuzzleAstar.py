@@ -1,5 +1,6 @@
 import NpuzzleControle
 import NpuzzleHeuristique
+import copy
 
 ARRAY,HEURISTIC,DAD,DEPTH = 0,1,2,3
 
@@ -19,32 +20,39 @@ class NpuzzleAstar:
 		self.He = NpuzzleHeuristique.NpuzzleHeuristique(tab)
 
 	def reconstruct_path(self, current):
-		total_path = {current}
+		total_path = [current]
 		while current[DAD] != 0:
 			current = current[DAD]
 			total_path.append(current)
-			return total_path
+		# print(total_path)
+		return total_path
 
 	# format = {hash: [tab, heu, *father, depth]}
 	def Astar(self, start, goal):
+		limit = 5
 		closedSet = {}
 		openSet = {self.get_hash(start): [start, self.He.get_heuristique_all_map(start), 0, 0]}
 		# print("\n")
 		#
 		# print(openSet)
 		while len(openSet) != 0:
-			print('\n')
-			print(openSet)
+			# print('\n')
+			# print("openSet: ", openSet)
+			# print('\n')
+			# print("closedSet: ", closedSet)
 			current = openSet[self.gScore_get_lower(openSet)]
-			if current[ARRAY] == goal:
-				return reconstruct_path(current)
+			if current[ARRAY] == goal or limit == 0:
+				return self.reconstruct_path(current)
 
 			closedSet[self.get_hash(current[ARRAY])] = current
-			removekey(openSet, self.get_hash(current[ARRAY]))
+			openSet.pop(self.get_hash(current[ARRAY]), None)
 			way = self.possible_move(current)
 			for i in range(0, len(way), 1):
 				neighbor = [0, 0, 0, 0]
 				neighbor[ARRAY] = self.get_node(way[i], current[ARRAY]);
+
+				# print(hex(id(current[ARRAY])), hex(id(neighbor[ARRAY])))
+
 				if self.get_hash(neighbor[ARRAY]) in closedSet:
 					continue		# Ignore the neighbor which is already evaluated.
 
@@ -55,6 +63,7 @@ class NpuzzleAstar:
 
 				if self.get_hash(neighbor[ARRAY]) not in openSet:	# Discover a new node
 					openSet[self.get_hash(neighbor[ARRAY])] = neighbor
+			# limit -= 1
 
 	def get_hash(self, tab):
 		# alltab = self.get_numbers(tab)
@@ -98,18 +107,21 @@ class NpuzzleAstar:
 				index_y = i
 		if index_y == 0:
 			moves.remove("U")
-		if index_y == len(node[ARRAY]):
+		if index_y == (len(node[ARRAY]) - 1):
 			moves.remove("D")
 		if index_x == 0:
 			moves.remove("L")
-		if index_x == len(node[ARRAY][0]):
+		if index_x == (len(node[ARRAY][0]) - 1):
 			moves.remove("R")
 		return moves
 
 	def get_node(self, move_type, node):
-		new_node = node[:]
+		new_node = copy.deepcopy(node)
 		index_x = -1
 		index_y = -1
+		# print("node: ", node, "\nnew_node: ", new_node)
+		# print(hex(id(node)), hex(id(new_node)))
+
 		for i in range(0, len(node), 1):
 			if 0 in node[i]:
 				index_x = node[i].index(0)
@@ -122,4 +134,5 @@ class NpuzzleAstar:
 			self.Co.switch_left(new_node)
 		if move_type == "R":
 			self.Co.switch_right(new_node)
+		# print("node2:  ", node, "\nnew_node: ", new_node)
 		return new_node
