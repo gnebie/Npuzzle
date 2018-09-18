@@ -26,6 +26,7 @@ class NpuzzleAlgorithm:
 		for i in result:
 			for y in i[0]:
 				print(y)
+			print (i[1])
 			print('\n')
 		print('profondeur:', result[0][3], '\n')
 		# print('result[0]', result[0], '\n')

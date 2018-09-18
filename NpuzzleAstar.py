@@ -22,6 +22,7 @@ class NpuzzleAstar:
 	def reconstruct_path(self, current):
 		total_path = [current]
 		while current[DAD] != 0:
+			# print(current[HEURISTIC])
 			current = current[DAD]
 			total_path.append(current)
 		# print(total_path)
@@ -29,7 +30,6 @@ class NpuzzleAstar:
 
 	# format = {hash: [tab, heu, *father, depth]}
 	def Astar(self, start, goal):
-		limit = 5
 		closedSet = {}
 		openSet = {self.get_hash(start): [start, self.He.get_heuristique_all_map(start), 0, 0]}
 		# print("\n")
@@ -41,7 +41,7 @@ class NpuzzleAstar:
 			# print('\n')
 			# print("closedSet: ", closedSet)
 			current = openSet[self.gScore_get_lower(openSet)]
-			if current[ARRAY] == goal or limit == 0:
+			if current[ARRAY] == goal:
 				return self.reconstruct_path(current)
 
 			closedSet[self.get_hash(current[ARRAY])] = current
@@ -63,7 +63,6 @@ class NpuzzleAstar:
 
 				if self.get_hash(neighbor[ARRAY]) not in openSet:	# Discover a new node
 					openSet[self.get_hash(neighbor[ARRAY])] = neighbor
-			# limit -= 1
 
 	def get_hash(self, tab):
 		# alltab = self.get_numbers(tab)
