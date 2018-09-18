@@ -22,7 +22,8 @@ def main():
 	# 	result = controle.get_closer_to_this_numbre(tab.lines, tab.listsort, nbr_coup, i)
 	# 	i += 1
 	tab = create.gettab()
-	algo = NpuzzleAlgorithm.NpuzzleAlgorithm(tab)
+	option = create.get_options()
+	algo = NpuzzleAlgorithm.NpuzzleAlgorithm(tab, option)
 	algo.run()
 	print(tab.list)
 	# print("nbr_coup : ",nbr_coup, "\n ", tab.lines)

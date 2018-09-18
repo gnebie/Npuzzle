@@ -1,9 +1,11 @@
+import math
+
 class NpuzzleHeuristique:
-	def __init__(self, tab):
+	def __init__(self, tab, option):
 		self.tab_ref = tab.listsort
 		self.tab_size = tab.linenbrmax
 		self.tab_walls = [[0 for i in range(tab.linenbrmax)] for i in range(tab.linenbrmax)]
-		self.option = 0
+		self.option = option
 		print(self.tab_walls)
 
 	def manhattan_distance(self, tup1, tup2):
@@ -11,11 +13,15 @@ class NpuzzleHeuristique:
 		return (dist)
 
 	def euclide_distance(self, tup1, tup2):
-		dist = sqrt((tup1[1] - tup2[1])**2 + (tup1[2] - tup2[2])**2)
+		dist = math.sqrt((tup1[1] - tup2[1])**2 + (tup1[2] - tup2[2])**2)
 		return (dist)
 
 	def tchebychev_distance(self, tup1, tup2):
-		dist = max(abs(tup1[1] - tup2[1]), abs(tup1[2] - tup2[2]))
+		va1 = abs(tup1[1] - tup2[1])
+		va2 = abs(tup1[2] - tup2[2])
+		if (va1 > va2):
+			return va1
+		return va2
 
 	def heurisique_distance(self, tup1, tup2):
 		if (self.option == 0):

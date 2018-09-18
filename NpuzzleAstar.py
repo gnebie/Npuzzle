@@ -11,13 +11,13 @@ def removekey(d, key):
 
 class NpuzzleAstar:
 	"""NpuzzleAstar class, do the work"""
-	def __init__(self, tab):
+	def __init__(self, tab, Heuristique, Controle):
 		self.linenbr = 0
 		self.linenbrmax = 0
 		self.lines = []
 		self.listsort = []
-		self.Co = NpuzzleControle.NpuzzleControle(tab.linenbrmax)
-		self.He = NpuzzleHeuristique.NpuzzleHeuristique(tab)
+		self.Co = Controle
+		self.He = Heuristique
 
 	def reconstruct_path(self, current):
 		total_path = [current]

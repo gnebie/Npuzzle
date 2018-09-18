@@ -12,17 +12,21 @@ class NpuzzleCreateTab:
 			self.tab.add_full_list(self.generete_random_table())
 		else:
 			self.parse_file(args.file_name, self.tab)
+		self.heuristic = args.heuristic
 		self.check_tab()
 
 	def gettab(self):
 		return self.tab
 
+	def get_options(self):
+		return self.heuristic
+
 	def pars_arg(self):
-		parser = argparse.ArgumentParser()
-		parser.add_argument("-f", "--file_name", default=False, help="File name, if no filename is given, the programme will create a 3 * 3 random table")
+		parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
+		parser.add_argument("-f", "--file_name", default=False, help="File name\nif no filename is given, the programme will create a 3 * 3 random table")
 		parser.add_argument("-v", "--verbose", action="store_true", default=False, help="Print all the stats of the programme")
 		parser.add_argument("-s", "--show", action="store_true", default=False, help="Show the programme running step by step")
-		parser.add_argument("-e [NUMBER]", "--heuristic [NUMBER]", action="store_true", default=False, help="choose your heuristic : \n1 => manhattan \n2 => euclide \n3 => tchebychev")
+		parser.add_argument("-e", "--heuristic", type=int, choices=[0, 1, 2],default=0, help="Choose your heuristic: \n\t1 => manhattan \n\t2 => euclide \n\t3 => tchebychev")
 		args = parser.parse_args()
 		return args
 

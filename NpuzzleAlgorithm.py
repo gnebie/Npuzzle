@@ -10,8 +10,8 @@ def copydbllist(lst):
 	return newlst
 
 class NpuzzleAlgorithm:
-	def __init__(self, tab):
-		self.He = NpuzzleHeuristique.NpuzzleHeuristique(tab)
+	def __init__(self, tab, option):
+		self.He = NpuzzleHeuristique.NpuzzleHeuristique(tab, option)
 		self.Co = NpuzzleControle.NpuzzleControle(tab.linenbrmax)
 		self.Tab = tab
 		# self.Info = NpuzzleInfosAlgorithm.NpuzzleInfosAlgorithm()
@@ -21,7 +21,7 @@ class NpuzzleAlgorithm:
 		# print(self.He.check_walls(self.Tab.list_2))
 		# print(self.He.check_walls(self.Tab.list_2))
 		# self.baby_ago()
-		algo = NpuzzleAstar.NpuzzleAstar(self.Tab)
+		algo = NpuzzleAstar.NpuzzleAstar(self.Tab, self.He, self.Co)
 		result = algo.Astar(self.Tab.list_2, self.Tab.listsort)
 		for i in result:
 			for y in i[0]:
