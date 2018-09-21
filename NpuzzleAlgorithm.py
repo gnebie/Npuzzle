@@ -14,7 +14,18 @@ class NpuzzleAlgorithm:
 		self.He = NpuzzleHeuristique.NpuzzleHeuristique(tab, option)
 		self.Co = NpuzzleControle.NpuzzleControle(tab.linenbrmax)
 		self.Tab = tab
-		# self.Info = NpuzzleInfosAlgorithm.NpuzzleInfosAlgorithm()
+		self.Info = NpuzzleInfosAlgorithm.NpuzzleInfosAlgorithm()
+
+#  At the end of the search, the program has to provide the following values:
+#  ◦ Total number of states ever selected in the "opened" set (complexity in time)
+#  ◦ Maximum number of states ever represented in memory at the same time
+#  during the search (complexity in size)
+#  ◦ Number of moves required to transition from the initial state to the final state,
+#  according to the search
+#  ◦ The ordered sequence of states that make up the solution, according to the
+#  search
+#  ◦ The puzzle may be unsolvable, in which case you have to inform the user and
+#  exit
 
 	def run(self):
 		# print(self.He.check_walls(self.Tab.list_2))
@@ -29,6 +40,7 @@ class NpuzzleAlgorithm:
 			print (i[1])
 			print('\n')
 		print('profondeur:', result[0][3], '\n')
+		print("Time used {} ".format(self.Info.end()))
 		# print('result[0]', result[0], '\n')
 		# print('result[1]', result[1], '\n')
 		# print('result[2]', result[2], '\n')
