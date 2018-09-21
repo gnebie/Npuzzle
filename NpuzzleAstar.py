@@ -34,16 +34,21 @@ class NpuzzleAstar:
 		closedSet = {}
 		openSet = {self.get_hash(start): [start, self.He.get_heuristique_all_map(start), 0, 0]}
 		last = [0, 100000, 0, 0]
+		nbropen = len(openSet)
 		# print("\n")
 		#
 		# print(openSet)
 		while len(openSet) != 0:
+			if (len(openSet) > nbropen):
+				nbropen = len(openSet)
 			# print('\n')
 			# print("openSet: ", openSet)
 			# print('\n')
 			# print("closedSet: ", closedSet)
 			current = openSet[self.gScore_get_lower(openSet)]
 			if current[ARRAY] == goal:
+				self.Info.nbropen = nbropen;
+				self.Info.totalopen = len(openSet) + len(closedSet)
 				return self.reconstruct_path(current)
 			if (current[HEURISTIC] > last[HEURISTIC]) and not self.Info.greedy:
 				newSet = {}

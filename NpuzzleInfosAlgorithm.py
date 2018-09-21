@@ -7,6 +7,7 @@ class NpuzzleInfosAlgorithm:
 		self.nbr_de_coup = 0
 		self.time_start = time.clock()
 		self.time_end = 0
+		self.nbropen = 0
 		self.greedy = False
 		if (args.greedy):
 			self.greedy = True

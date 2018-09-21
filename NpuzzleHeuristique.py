@@ -6,7 +6,6 @@ class NpuzzleHeuristique:
 		self.tab_size = tab.linenbrmax
 		self.tab_walls = [[0 for i in range(tab.linenbrmax)] for i in range(tab.linenbrmax)]
 		self.option = option
-		print(self.tab_walls)
 
 	def manhattan_distance(self, tup1, tup2):
 		dist = abs(tup1[1] - tup2[1]) + abs(tup1[2] - tup2[2])
