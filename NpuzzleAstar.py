@@ -50,17 +50,19 @@ class NpuzzleAstar:
 				self.Info.nbropen = nbropen;
 				self.Info.totalopen = len(openSet) + len(closedSet)
 				return self.reconstruct_path(current)
-			if (current[HEURISTIC] > last[HEURISTIC]) and not self.Info.greedy:
+			if self.Info.uniform_cost or ((current[HEURISTIC] > last[HEURISTIC]) and not self.Info.greedy):
 				newSet = {}
 				while (len(openSet)):
+				# for current in openSet.values():
 					none, current = openSet.popitem()
 					closedSet[self.get_hash(current[ARRAY])] = current
 					self.moveCurrent(current, newSet, closedSet)
 				openSet = newSet
 				continue
 			else:
-				closedSet[self.get_hash(current[ARRAY])] = current
-				openSet.pop(self.get_hash(current[ARRAY]), None)
+				get_hash_current = self.get_hash(current[ARRAY])
+				closedSet[get_hash_current] = current
+				openSet.pop(get_hash_current, None)
 				self.moveCurrent(current, openSet, closedSet)
 				last = current
 
@@ -79,9 +81,9 @@ class NpuzzleAstar:
 			neighbor[DEPTH] = current[DEPTH] + 1
 			neighbor[DAD] = current
 			neighbor[HEURISTIC] = self.He.get_heuristique_all_map(neighbor[ARRAY])
-
-			if self.get_hash(neighbor[ARRAY]) not in openSet:	# Discover a new node
-				openSet[self.get_hash(neighbor[ARRAY])] = neighbor
+			hash = self.get_hash(neighbor[ARRAY])
+			if hash not in openSet:	# Discover a new node
+				openSet[hash] = neighbor
 
 	def get_hash(self, tab):
 		# alltab = self.get_numbers(tab)

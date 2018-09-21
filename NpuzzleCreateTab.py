@@ -26,7 +26,8 @@ class NpuzzleCreateTab:
 		parser.add_argument("-f", "--file_name", default=False, help="File name\nif no filename is given, the programme will create a 3 * 3 random table")
 		parser.add_argument("-v", "--verbose", action="store_true", default=False, help="Print all the stats of the programme")
 		parser.add_argument("-s", "--show", action="store_true", default=False, help="Show the programme running step by step")
-		parser.add_argument("-g", "--greedy", action="store_true", default=False, help="be faster by only take the optimum rule")
+		parser.add_argument("-u", "--uniform_cost", action="store_true", default=False, help="Take all the ways it find at the same time")
+		parser.add_argument("-g", "--greedy", action="store_true", default=False, help="Be faster by only take the optimum rule")
 		parser.add_argument("-e", "--heuristic", type=int, choices=[0, 1, 2],default=0, help="Choose your heuristic: \n\t1 => manhattan \n\t2 => euclide \n\t3 => tchebychev")
 		args = parser.parse_args()
 		return args

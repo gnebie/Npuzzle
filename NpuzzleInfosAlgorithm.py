@@ -8,9 +8,8 @@ class NpuzzleInfosAlgorithm:
 		self.time_start = time.clock()
 		self.time_end = 0
 		self.nbropen = 0
-		self.greedy = False
-		if (args.greedy):
-			self.greedy = True
+		self.greedy = args.greedy
+		self.uniform_cost = args.uniform_cost
 
 	def end(self):
 		if (self.time_end == 0):
