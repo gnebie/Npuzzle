@@ -11,10 +11,10 @@ def copydbllist(lst):
 
 class NpuzzleAlgorithm:
 	def __init__(self, tab, option):
-		self.He = NpuzzleHeuristique.NpuzzleHeuristique(tab, option)
+		self.He = NpuzzleHeuristique.NpuzzleHeuristique(tab, option.heuristic)
 		self.Co = NpuzzleControle.NpuzzleControle(tab.linenbrmax)
 		self.Tab = tab
-		self.Info = NpuzzleInfosAlgorithm.NpuzzleInfosAlgorithm()
+		self.Info = NpuzzleInfosAlgorithm.NpuzzleInfosAlgorithm(option)
 
 #  At the end of the search, the program has to provide the following values:
 #  ◦ Total number of states ever selected in the "opened" set (complexity in time)
@@ -32,7 +32,7 @@ class NpuzzleAlgorithm:
 		# print(self.He.check_walls(self.Tab.list_2))
 		# print(self.He.check_walls(self.Tab.list_2))
 		# self.baby_ago()
-		algo = NpuzzleAstar.NpuzzleAstar(self.Tab, self.He, self.Co)
+		algo = NpuzzleAstar.NpuzzleAstar(self.Tab, self.He, self.Co, self.Info)
 		result = algo.Astar(self.Tab.list_2, self.Tab.listsort)
 		for i in result:
 			for y in i[0]:

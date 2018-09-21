@@ -11,13 +11,14 @@ def removekey(d, key):
 
 class NpuzzleAstar:
 	"""NpuzzleAstar class, do the work"""
-	def __init__(self, tab, Heuristique, Controle):
+	def __init__(self, tab, Heuristique, Controle, Info):
 		self.linenbr = 0
 		self.linenbrmax = 0
 		self.lines = []
 		self.listsort = []
 		self.Co = Controle
 		self.He = Heuristique
+		self.Info = Info
 
 	def reconstruct_path(self, current):
 		total_path = [current]
@@ -32,6 +33,7 @@ class NpuzzleAstar:
 	def Astar(self, start, goal):
 		closedSet = {}
 		openSet = {self.get_hash(start): [start, self.He.get_heuristique_all_map(start), 0, 0]}
+		last = [0, 100000, 0, 0]
 		# print("\n")
 		#
 		# print(openSet)
@@ -43,26 +45,38 @@ class NpuzzleAstar:
 			current = openSet[self.gScore_get_lower(openSet)]
 			if current[ARRAY] == goal:
 				return self.reconstruct_path(current)
+			if (current[HEURISTIC] > last[HEURISTIC]) and not self.Info.greedy:
+				newSet = {}
+				while (len(openSet)):
+					none, current = openSet.popitem()
+					closedSet[self.get_hash(current[ARRAY])] = current
+					self.moveCurrent(current, newSet, closedSet)
+				openSet = newSet
+				continue
+			else:
+				closedSet[self.get_hash(current[ARRAY])] = current
+				openSet.pop(self.get_hash(current[ARRAY]), None)
+				self.moveCurrent(current, openSet, closedSet)
+				last = current
 
-			closedSet[self.get_hash(current[ARRAY])] = current
-			openSet.pop(self.get_hash(current[ARRAY]), None)
-			way = self.possible_move(current)
-			for i in range(0, len(way), 1):
-				neighbor = [0, 0, 0, 0]
-				neighbor[ARRAY] = self.get_node(way[i], current[ARRAY]);
+	def moveCurrent(self, current, openSet, closedSet):
+		way = self.possible_move(current)
+		for i in range(0, len(way), 1):
+			neighbor = [0, 0, 0, 0]
+			neighbor[ARRAY] = self.get_node(way[i], current[ARRAY]);
 
-				# print(hex(id(current[ARRAY])), hex(id(neighbor[ARRAY])))
+			# print(hex(id(current[ARRAY])), hex(id(neighbor[ARRAY])))
 
-				if self.get_hash(neighbor[ARRAY]) in closedSet:
-					continue		# Ignore the neighbor which is already evaluated.
+			if self.get_hash(neighbor[ARRAY]) in closedSet:
+				continue		# Ignore the neighbor which is already evaluated.
 
-					# The distance from start to a neighbor
-				neighbor[DEPTH] = current[DEPTH] + 1
-				neighbor[DAD] = current
-				neighbor[HEURISTIC] = self.He.get_heuristique_all_map(neighbor[ARRAY])
+				# The distance from start to a neighbor
+			neighbor[DEPTH] = current[DEPTH] + 1
+			neighbor[DAD] = current
+			neighbor[HEURISTIC] = self.He.get_heuristique_all_map(neighbor[ARRAY])
 
-				if self.get_hash(neighbor[ARRAY]) not in openSet:	# Discover a new node
-					openSet[self.get_hash(neighbor[ARRAY])] = neighbor
+			if self.get_hash(neighbor[ARRAY]) not in openSet:	# Discover a new node
+				openSet[self.get_hash(neighbor[ARRAY])] = neighbor
 
 	def get_hash(self, tab):
 		# alltab = self.get_numbers(tab)
