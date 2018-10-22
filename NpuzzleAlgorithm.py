@@ -2,6 +2,7 @@ import NpuzzleControle
 import NpuzzleHeuristique
 import NpuzzleInfosAlgorithm
 import NpuzzleAstar
+import NpuzzleGraph
 
 def copydbllist(lst):
 	newlst = []
@@ -34,6 +35,9 @@ class NpuzzleAlgorithm:
 		# self.baby_ago()
 		algo = NpuzzleAstar.NpuzzleAstar(self.Tab, self.He, self.Co, self.Info)
 		result = algo.Astar(self.Tab.list_2, self.Tab.listsort)
+		if (self.Info.graph):
+			graph = NpuzzleGraph.NpuzzleGraph(self.Tab.listsort)
+			graph.start(result, result[0][3]);
 		for i in result:
 			for y in i[0]:
 				print(y)

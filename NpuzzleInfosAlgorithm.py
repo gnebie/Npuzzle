@@ -10,6 +10,7 @@ class NpuzzleInfosAlgorithm:
 		self.nbropen = 0
 		self.greedy = args.greedy
 		self.uniform_cost = args.uniform_cost
+		self.graph = args.graph
 
 	def end(self):
 		if (self.time_end == 0):
