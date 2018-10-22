@@ -1,6 +1,9 @@
-
+import sys
+import io
 import time
 import pygame
+from urllib.error import HTTPError
+from urllib.request import urlopen
 from pygame.locals import *
 
 
@@ -13,7 +16,7 @@ IMG_BACKGROUND = "background.jpg"
 IMG_FRONT = "case.jpeg"
 # IMG_FRONT = "case.png"
 class NpuzzleGraph:
-	def __init__(self, list_sort):
+	def __init__(self, list_sort, img_url):
 		pygame.init()
 		self.listsort = []
 		for elem in list_sort:
@@ -21,11 +24,28 @@ class NpuzzleGraph:
 		self.size = len(list_sort)
 		self.bloc_size_width = int(NPUZZLE_IMAGE_WIDTH / self.size)
 		self.bloc_size_height = int(NPUZZLE_IMAGE_HEIGHT / self.size)
+		if (len(img_url) > 0):
+			if "http" in img_url:
+				self.img = IMG_FRONT
+				try:
+					print("img find")
+					self.img = urlopen(img_url).read()
+					self.img = io.BytesIO(self.img)
+				except HTTPError as err:
+					print("img not load from internet", err)
+					self.img = IMG_FRONT
+				except:
+					print("img not load from internet", sys.exc_info()[0])
+					self.img = IMG_FRONT
+			else :
+				self.img = img_url
+		else:
+			self.img = IMG_FRONT
 
 	def start(self, result, deep):
 		result.reverse()
 		fenetre = pygame.display.set_mode((NPUZZLE_IMAGE_WIDTH, NPUZZLE_IMAGE_HEIGHT))
-		fond = pygame.image.load(IMG_BACKGROUND).convert() # background
+		fond = pygame.transform.scale(pygame.image.load(IMG_BACKGROUND).convert(), (NPUZZLE_IMAGE_WIDTH, NPUZZLE_IMAGE_HEIGHT)) # background
 		fenetre.blit(fond, (0,0))
 		pygame.display.flip()
 
@@ -64,7 +84,7 @@ class NpuzzleGraph:
 						pos_col = 0
 						for elem in res_line:
 							if (elem != 0):
-								print(self.listsort.index(elem))
+								# print(self.listsort.index(elem))
 								fenetre.blit(game_cases[self.listsort.index(elem)], (pos_col, pos_line))
 							else:
 								pos_0_col = pos_col
@@ -88,7 +108,10 @@ class NpuzzleGraph:
 	def create_game_case(self):
 		i = 0;
 		game_case = []
-		img_to_load = pygame.transform.scale(pygame.image.load(IMG_FRONT).convert(), (NPUZZLE_IMAGE_WIDTH, NPUZZLE_IMAGE_HEIGHT))
+
+		# print("before")
+		img_to_load = pygame.transform.scale(pygame.image.load(self.img).convert(), (NPUZZLE_IMAGE_WIDTH, NPUZZLE_IMAGE_HEIGHT))
+		# print("after")
 		pos_line = 0
 		pos_col = 0
 		while i < self.size * self.size :
@@ -99,5 +122,5 @@ class NpuzzleGraph:
 				pos_line += self.bloc_size_height
 			else:
 				pos_col += self.bloc_size_width
-		print(i)
+		# print(i)
 		return game_case

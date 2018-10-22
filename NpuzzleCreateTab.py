@@ -24,6 +24,7 @@ class NpuzzleCreateTab:
 	def pars_arg(self):
 		parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
 		parser.add_argument("-f", "--file_name", default=False, help="File name\nif no filename is given, the programme will create a 3 * 3 random table")
+		parser.add_argument("-w", "--url", default="", help="graph url\nIt can be a relative path or a an url\nIf no url is given, the defaulf img will be take")
 		parser.add_argument("-v", "--verbose", action="store_true", default=False, help="Print all the stats of the programme")
 		parser.add_argument("-s", "--show", action="store_true", default=False, help="Show the programme running step by step")
 		parser.add_argument("-u", "--uniform_cost", action="store_true", default=False, help="Take all the ways it find at the same time")

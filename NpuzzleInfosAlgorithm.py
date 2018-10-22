@@ -11,6 +11,7 @@ class NpuzzleInfosAlgorithm:
 		self.greedy = args.greedy
 		self.uniform_cost = args.uniform_cost
 		self.graph = args.graph
+		self.url = args.url
 
 	def end(self):
 		if (self.time_end == 0):
