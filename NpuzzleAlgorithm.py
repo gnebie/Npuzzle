@@ -35,6 +35,7 @@ class NpuzzleAlgorithm:
 		# self.baby_ago()
 		algo = NpuzzleAstar.NpuzzleAstar(self.Tab, self.He, self.Co, self.Info)
 		result = algo.Astar(self.Tab.list_2, self.Tab.listsort)
+		self.Info.end()
 		if (self.Info.graph):
 			try :
 				graph = NpuzzleGraph.NpuzzleGraph(self.Tab.listsort, self.Info.url)
